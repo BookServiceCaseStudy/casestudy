@@ -1,0 +1,52 @@
+rabbitmq:
+  image : rabbitmq:3-management
+  container_name: rabbitmq
+  hostname: rabbitmq
+  ports:
+    - "15672:15672"
+  expose:
+    - "5672"
+    - "4369"
+    - "25672"
+discovery:
+  image: vineet/webservice-registry
+  ports:
+   - "12871:12871"
+configserver:
+  image: vineet/config-server
+  ports:
+   - "12888:12888"
+  links:
+   - discovery
+gateway:
+  image: vineet/gateway
+  ports:
+   - "10000:10000"
+  links:
+   - webservice-registry
+   - config-server
+   - user
+   - movie
+   - recommendation
+user:
+  image: kbastani/users-microservice
+  links:
+   - discovery
+   - configserver
+movie:
+  image: kbastani/movie-microservice
+  links:
+   - discovery
+   - configserver
+recommendation:
+  image: kbastani/recommendation-microservice
+  links:
+   - discovery
+   - configserver
+moviesui:
+  image: kbastani/movies-ui
+  ports:
+     - "9006:9006"
+  links:
+   - discovery
+   - configserver
