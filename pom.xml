@@ -3,19 +3,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.kbastani</groupId>
+    <groupId>org.vineet</groupId>
     <artifactId>spring-cloud-microservice-example-parent</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
         <module>book-registration-order</module>
-        <module>gateway</module>
+        <module>book-registration-gateway</module>
         <module>book-registration-message-broker</module>
-        <module>config-server</module>
+        <module>book-config-server</module>
         <module>book-registration-web</module>
-        <module>book-registration-web</module>
-        <module>book-registration-Service</module>
+        <module>book-registration-service</module>
     </modules>
 
     <parent>
