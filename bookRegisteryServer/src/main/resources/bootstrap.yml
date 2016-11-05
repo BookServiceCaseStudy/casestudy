@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: webservice-registry
-  cloud:
-    config:
-      uri: http://localhost:12888

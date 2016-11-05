@@ -15,6 +15,7 @@
         <module>book-config-server</module>
         <module>book-registration-web</module>
         <module>book-registration-service</module>
+        <module>book-registry-server</module>
     </modules>
 
     <parent>
