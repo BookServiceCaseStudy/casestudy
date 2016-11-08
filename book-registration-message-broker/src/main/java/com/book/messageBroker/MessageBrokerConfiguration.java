@@ -17,7 +17,7 @@ public class MessageBrokerConfiguration
   @Bean
   public ConnectionFactory connectionFactory()
   {
-      CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
+      CachingConnectionFactory connectionFactory = new CachingConnectionFactory("192.168.99.100");
       connectionFactory.setUsername("guest");
       connectionFactory.setPassword("guest");
       return connectionFactory;

@@ -8,45 +8,49 @@ rabbitmq:
     - "5672"
     - "4369"
     - "25672"
-discovery:
-  image: vineet/webservice-registry
+registryserver:
+  image: vineet/registry-server
   ports:
    - "12871:12871"
-configserver:
-  image: vineet/config-server
-  ports:
-   - "12888:12888"
-  links:
-   - discovery
+  environment:
+     SPRING_PROFILES_ACTIVE: cloud
 gateway:
   image: vineet/gateway
   ports:
    - "10000:10000"
   links:
-   - webservice-registry
-   - config-server
-   - user
-   - movie
-   - recommendation
-user:
-  image: kbastani/users-microservice
+   - registryserver
+   - bookregistrationservice
+   - bookregistrationmessagebroker
+   - bookregistrationweb
+   - bookregistrationorder
+  environment:
+     SPRING_PROFILES_ACTIVE: cloud
+bookregistrationservice:
+  image: vineet/book-registration-service
   links:
-   - discovery
-   - configserver
-movie:
-  image: kbastani/movie-microservice
+   - registryserver
+  environment:
+     SPRING_PROFILES_ACTIVE: cloud
+bookregistrationorder:
+  image: vineet/book-registration-order
   links:
-   - discovery
-   - configserver
-recommendation:
-  image: kbastani/recommendation-microservice
+   - registryserver
+   - rabbitmq
+  environment:
+      SPRING_PROFILES_ACTIVE: cloud
+bookregistrationmessagebroker:
+  image: vineet/book-registration-message-broker
   links:
-   - discovery
-   - configserver
-moviesui:
-  image: kbastani/movies-ui
+   - registryserver
+   - rabbitmq
+  environment:
+      SPRING_PROFILES_ACTIVE: cloud
+bookregistrationweb:
+  image: vineet/book-service-web
   ports:
      - "9006:9006"
   links:
-   - discovery
-   - configserver
+   - registryserver
+  environment:
+      SPRING_PROFILES_ACTIVE: cloud

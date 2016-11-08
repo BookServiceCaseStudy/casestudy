@@ -29,7 +29,7 @@ public class RegistrationController
   public String register(Book book)
   {
     return restTemplate
-      .getForObject("http://BOOK-REGISTRATION-SERVICE/books/register/Alchemist", Book.class)
+      .getForObject("http://BOOK-SERVICE/books/register/Alchemist", Book.class)
       .toString();
   }
 
@@ -38,7 +38,7 @@ public class RegistrationController
   public List<Book> find(@PathVariable("name") String name)
   {
    return restTemplate
-      .getForObject("http://BOOK-REGISTRATION-SERVICE/books/register/Alchemist", List.class);
+      .getForObject("http://BOOK-SERVICE/books/register/Alchemist", List.class);
   }
 
   @RequestMapping("/purchase")
@@ -47,7 +47,7 @@ public class RegistrationController
   @POST
   public List<Book> purchase(@RequestBody Book book)
   {
-    List<Book> books = restTemplate.postForObject("http://BOOK-REGISTRATION-SERVICE/books/purchase",
+    List<Book> books = restTemplate.postForObject("http://BOOK-SERVICE/books/purchase",
       book, List.class);
     if (book.getQuantity() < 1)
     {
@@ -58,7 +58,7 @@ public class RegistrationController
       message.setBookName(book.getName());
       message.setNoOfBookNeeded(10);
       String response = restTemplate.postForObject(
-        "http://Book-Registration-Message-Broker/books/notify", message, String.class);
+        "http://Book-Message-Broker/books/notify", message, String.class);
     }
     return books;
   }
