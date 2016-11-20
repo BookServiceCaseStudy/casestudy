@@ -1,0 +1,39 @@
+<head>
+<style>
+			table, th, td {
+			   border: 1px solid black;
+			   border-spacing: 5px;
+			}
+			th, td {
+				padding: 10px;
+			}
+		</style>
+</head>
+<div class="section" ng-controller="pendingController" data-ng-init="find()">
+
+	<h3>{{headingTitle}}</h3>
+
+		<table width="100%">
+		<thead>
+		     <th width="10%"> ID </th>
+		     <th width="30%"> Name </th>
+		     <th width="30%"> No. of Book Needed </th>
+		     <th width="10%"> Client Name </th>
+		     <th width="20%">  </th>
+		 </thead>
+			<tr ng-repeat="data in result">
+					<td>{{data.id}}</td> 
+					<td>{{data.bookName}}</td>
+					<td>{{data.numberOfBooksRequired}}</td>
+					<td>{{data.clientId}}</td>
+					<td>
+					<button
+						ng-click="completedOrder(data.id, data.externaBookXref, data.clientId, data.numberOfBooksRequired)">
+						Completed </button>
+				    </td>
+			</tr>
+		</table>
+		</div>
+	</form>
+
+</div>
