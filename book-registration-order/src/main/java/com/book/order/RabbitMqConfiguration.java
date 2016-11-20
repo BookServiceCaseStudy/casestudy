@@ -7,17 +7,22 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.support.converter.DefaultClassMapper;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import com.book.messageBroker.BookMessage;
 
-
+@Configuration
 public class RabbitMqConfiguration
 {
+  @Value("${spring.rabbitmq.host}")
+  private String rabbitMqHost;
+  
   @Bean
   public ConnectionFactory connectionFactory()
   {
-      CachingConnectionFactory connectionFactory = new CachingConnectionFactory("192.168.99.100");
+      CachingConnectionFactory connectionFactory = new CachingConnectionFactory(rabbitMqHost);
       connectionFactory.setUsername("guest");
       connectionFactory.setPassword("guest");
       return connectionFactory;

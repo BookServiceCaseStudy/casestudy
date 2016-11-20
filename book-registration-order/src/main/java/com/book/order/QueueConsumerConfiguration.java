@@ -12,7 +12,7 @@ import org.springframework.amqp.core.Queue;
 @Configuration
 public class QueueConsumerConfiguration extends RabbitMqConfiguration
 {
-  protected final String orderQueue = "tasks.queue";
+  protected static final String orderQueue = "newOrder.queue";
 
   @Autowired
   private OrderResultHandler orderResultHandler;
@@ -20,22 +20,22 @@ public class QueueConsumerConfiguration extends RabbitMqConfiguration
 @Bean
 public RabbitTemplate rabbitTemplate() {
   RabbitTemplate template = new RabbitTemplate(connectionFactory());
-  template.setRoutingKey(this.orderQueue);
-  template.setQueue(this.orderQueue);
+  template.setRoutingKey(QueueConsumerConfiguration.orderQueue);
+  template.setQueue(QueueConsumerConfiguration.orderQueue);
       template.setMessageConverter(jsonMessageConverter());
   return template;
 }
 
-  @Bean
-public Queue OrderQueue() {
-  return new Queue(this.orderQueue);
+@Bean
+public Queue orderQueue() {
+  return new Queue(QueueConsumerConfiguration.orderQueue);
 }
 
 @Bean
 public SimpleMessageListenerContainer listenerContainer() {
   SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
   container.setConnectionFactory(connectionFactory());
-  container.setQueueNames(this.orderQueue);
+  container.setQueueNames(QueueConsumerConfiguration.orderQueue);
   container.setMessageListener(messageListenerAdapter());
 
   return container;

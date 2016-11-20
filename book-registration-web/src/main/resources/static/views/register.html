@@ -1,14 +1,16 @@
-<form method="post" ng-submit="updateProfile()" name="signupForm" id="signupForm"> 
-
-<div class="section">
-    <h3>{{headingTitle}}</h3>
-    <div>
-        <ul type="square">
-            <li>Luke</li>
-            <li>Darth</li>
-            <li>Anakin</li>
-            <li>Leia</li>
-        </ul>
-    </div>
+<div class="section"  ng-controller="registerationController">
+	<h3>{{headingTitle}}</h3>
+	<form ng-submit="register()" method="post">
+		Name <input class="form-control" type="text" ng-model="formData.name"
+			name="bookName" required="true" /> <br /> 
+		Author <input
+			class="form-control" type="text" ng-model="formData.author"
+			name="author" required="true" /><br /> 
+	    Year <input type="text" id="year" name="year" ng-model="formData.publishYear"/><br /> 
+	    Quantity <input type="text" id="year" name="year" ng-model="formData.quantity"/><br /> 
+		Description 
+<textarea ng-model="formData.description"></textarea>
+		<br /> <button class="btn btn-theme-orange margintop10 pull-right"
+				type="submit">Add Book</button>
+	</form>
 </div>
-</form>

@@ -5,7 +5,10 @@ public class Book
   private long id;
   private String name;
   private String author;
+  private String description;
   private int quantity;
+  private String searchString; 
+  private String publishYear;
 
   public Book()
   {
@@ -55,5 +58,35 @@ public class Book
   public void setQuantity(int quantity)
   {
     this.quantity = quantity;
+  }
+
+  public String getSearchString()
+  {
+    return searchString;
+  }
+
+  public void setSearchString(String searchString)
+  {
+    this.searchString = searchString;
+  }
+
+  public String getDescription()
+  {
+    return description;
+  }
+
+  public void setDescription(String description)
+  {
+    this.description = description;
+  }
+
+  public String getPublishYear()
+  {
+    return publishYear;
+  }
+
+  public void setPublishYear(String publishYear)
+  {
+    this.publishYear = publishYear;
   }
 }

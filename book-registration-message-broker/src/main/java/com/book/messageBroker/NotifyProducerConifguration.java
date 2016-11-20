@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class NotifyProducerConifguration extends MessageBrokerConfiguration
 {
-  protected final String tasksQueue = "tasks.queue";
+  protected final String tasksQueue = "newOrder.queue";
 
   @Bean
   public RabbitTemplate rabbitTemplate()

@@ -26,10 +26,10 @@ public class RegistrationController
   @POST
   @Consumes("appliation/json")
   @Produces("appliation/json")
-  public String register(Book book)
+  public String register(@RequestBody Book book)
   {
     return restTemplate
-      .getForObject("http://BOOK-SERVICE/books/register/Alchemist", Book.class)
+      .postForObject("http://book-service/books/register", book, String.class)
       .toString();
   }
 
@@ -38,7 +38,7 @@ public class RegistrationController
   public List<Book> find(@PathVariable("name") String name)
   {
    return restTemplate
-      .getForObject("http://BOOK-SERVICE/books/register/Alchemist", List.class);
+      .getForObject("http://book-service/books/register/"+name, List.class);
   }
 
   @RequestMapping("/purchase")
@@ -47,18 +47,20 @@ public class RegistrationController
   @POST
   public List<Book> purchase(@RequestBody Book book)
   {
-    List<Book> books = restTemplate.postForObject("http://BOOK-SERVICE/books/purchase",
+    List<Book> books = restTemplate.postForObject("http://book-service/books/purchase",
       book, List.class);
     if (book.getQuantity() < 1)
     {
       BookMessage message = new BookMessage();
-      message.setMessage("Order for more books");
       message.setNewOrder(true);
       message.setNoOfBookLeft(book.getQuantity());
       message.setBookName(book.getName());
       message.setNoOfBookNeeded(10);
+      message.setClientId("VineetTest");
+      message.setExternalBookRefId(String.valueOf(book.getId()));
+      message.setAuthor(book.getAuthor());
       String response = restTemplate.postForObject(
-        "http://Book-Message-Broker/books/notify", message, String.class);
+        "http://book-message-broker/books/notify", message, String.class);
     }
     return books;
   }

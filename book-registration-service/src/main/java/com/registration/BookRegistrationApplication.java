@@ -1,31 +1,53 @@
 package com.registration;
 
-import javax.sql.DataSource;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+
+import com.mongodb.MongoClient;
+import com.mongodb.WriteConcern;
 
 @SpringBootApplication
 @EnableEurekaClient
-@ComponentScan("com.registration.service, com.registration.persistence, com.registration.entities")
-@EnableJpaRepositories("com.registration.persistence.repositories")
-@PropertySource("classpath:db-config.properties")
-public class BookRegistrationApplication {
+@ComponentScan("com.registration.service, com.registration.persistence, com.registration.entities, com.registration.common, com.registration.message.broker")
+@EnableMongoRepositories("com.registration.persistence.repositories")
+public class BookRegistrationApplication
+{
 
-	public static void main(String[] args) {
-		SpringApplication.run(BookRegistrationApplication.class, args);
-	}
-	
-	@Bean
-  public DataSource dataSource() {
-    return (new EmbeddedDatabaseBuilder())
-      .addScript("classpath:db/schema.sql")
-      .addScript("classpath:db/data.sql").build();
-	}
+  @Value("${spring.data.mongodb.host}")
+  private String host;
+  @Value("${spring.data.mongodb.port}")
+  private int port;
+  @Value("${spring.data.mongodb.database}")
+  private String database;
+
+  public static void main(String[] args)
+  {
+    SpringApplication.run(BookRegistrationApplication.class, args);
+  }
+
+  @Bean
+  public MongoDbFactory mongoDbFactory() throws Exception
+  {
+
+    MongoClient mongo = new MongoClient(host, port);
+    SimpleMongoDbFactory simpleMongoDbFactory = new SimpleMongoDbFactory(mongo, database);
+    return simpleMongoDbFactory;
+  }
+
+  @Bean
+  public MongoTemplate mongoTemplate() throws Exception
+  {
+    MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
+    mongoTemplate.setWriteConcern(WriteConcern.SAFE);
+    return mongoTemplate;
+  }
+
 }

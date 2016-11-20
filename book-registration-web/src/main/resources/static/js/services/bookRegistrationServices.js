@@ -10,7 +10,7 @@ bookServices.service('bookService', ['ajaxService', function userService(ajaxSer
   };
 
   self.register = function(formData, successFunction, errorFunction) {
-    ajaxService.AjaxPostContentType(formData, '/register', successFunction, errorFunction);
+    ajaxService.AjaxPost(formData, '/register', successFunction, errorFunction);
   };
 
   self.purchase = function(formData,successFunction, errorFunction) {

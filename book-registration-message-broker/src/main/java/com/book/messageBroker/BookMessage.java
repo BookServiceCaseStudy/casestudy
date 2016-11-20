@@ -1,12 +1,17 @@
 package com.book.messageBroker;
 
-public class BookMessage
+import java.io.Serializable;
+
+public class BookMessage implements Serializable
 {
+  private static final long serialVersionUID = 6806683314223167095L;
   int noOfBookLeft;
-  String message;
   String bookName;
   int noOfBookNeeded;
   boolean newOrder;
+  String author;
+  String clientId;
+  String externalBookRefId;
 
   /**
    * @return the noOfBookLeft
@@ -22,16 +27,6 @@ public class BookMessage
   public void setNoOfBookLeft(int noOfBookLeft)
   {
     this.noOfBookLeft = noOfBookLeft;
-  }
-
-  public String getMessage()
-  {
-    return message;
-  }
-
-  public void setMessage(String message)
-  {
-    this.message = message;
   }
 
   public String getBookName()
@@ -64,4 +59,34 @@ public class BookMessage
     this.noOfBookNeeded = noOfBookNeeded;
   }
 
+  public String getAuthor()
+  {
+    return author;
+  }
+
+  public void setAuthor(String author)
+  {
+    this.author = author;
+  }
+
+  public String getClientId()
+  {
+    return clientId;
+  }
+
+  public void setClientId(String clientId)
+  {
+    this.clientId = clientId;
+  }
+
+  public String getExternalBookRefId()
+  {
+    return externalBookRefId;
+  }
+
+  public void setExternalBookRefId(String externalBookRefId)
+  {
+    this.externalBookRefId = externalBookRefId;
+  }
+   
 }

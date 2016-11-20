@@ -1,12 +1,15 @@
 package com.registration.persistence.repositories;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
+
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import com.registration.entities.Book;
 
 @Repository
-public interface BookRegistrationRepository extends CrudRepository<Book, Long>
+public interface BookRegistrationRepository
+  extends MongoRepository<Book, Long>, BookRegistrationRepositoryCustom
 {
-      Book findBookByName(String name);
+  List<Book> findBookByNameIgnoreCaseContaining(String name);
 }

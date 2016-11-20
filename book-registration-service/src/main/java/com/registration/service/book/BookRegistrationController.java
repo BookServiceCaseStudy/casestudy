@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.Lists;
+import com.registration.common.SequenceGenerator;
 import com.registration.entities.Book;
 import com.registration.persistence.dao.BookRegistrationDao;
 
@@ -26,6 +27,8 @@ public class BookRegistrationController
 {
   @Autowired
   BookRegistrationDao bookRegistrationDao;
+  @Autowired
+  SequenceGenerator sequenceGenerator;
 
   private static final Logger LOG = Logger.getLogger(BookRegistrationController.class);
 
@@ -33,10 +36,11 @@ public class BookRegistrationController
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   @RequestMapping("/books/register")
-  public ResponseEntity<String> create(Book book)
+  public ResponseEntity<String> create(@RequestBody Book book)
   {
     try
     {
+      book.setId(sequenceGenerator.getNextSequence("Book"));
       bookRegistrationDao.save(book);
       return new ResponseEntity("Book Registered", HttpStatus.OK);
     }
@@ -57,8 +61,8 @@ public class BookRegistrationController
   {
     try
     {
-      bookRegistrationDao.save(book);
-      return new ResponseEntity(bookRegistrationDao.listAllBooks(), HttpStatus.OK);
+      bookRegistrationDao.update(book);
+      return new ResponseEntity(bookRegistrationDao.findBookByName(book.getSearchString()), HttpStatus.OK);
     }
     catch (Exception e)
     {
@@ -72,7 +76,7 @@ public class BookRegistrationController
   @RequestMapping("/books/register/{name}")
   public List<Book> get(@PathVariable("name") String name)
   {
-    return Lists.newArrayList(bookRegistrationDao.listAllBooks());
+    return Lists.newArrayList(bookRegistrationDao.findBookByName(name));
   }
 
 }
