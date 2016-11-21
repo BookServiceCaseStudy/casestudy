@@ -1,0 +1,9 @@
+config:
+  image: vineet/config-server
+  ports:
+   - "12888:12888"
+  environment:
+     SPRING_PROFILES_ACTIVE: cloud
+
+    
+    

@@ -8,8 +8,14 @@ rabbitmq:
     - "5672"
     - "4369"
     - "25672"
+mongodb:
+    image: mongo
+    container_name: mongo
+    ports:
+    - "27017:27017"
 registryserver:
   image: vineet/registry-server
+  container_name: registryserver
   ports:
    - "12871:12871"
   environment:
@@ -24,12 +30,15 @@ gateway:
    - bookregistrationmessagebroker
    - bookregistrationweb
    - bookregistrationorder
+   - bookrorderweb
   environment:
      SPRING_PROFILES_ACTIVE: cloud
 bookregistrationservice:
   image: vineet/book-registration-service
   links:
    - registryserver
+   - rabbitmq
+   - mongodb
   environment:
      SPRING_PROFILES_ACTIVE: cloud
 bookregistrationorder:
@@ -37,6 +46,7 @@ bookregistrationorder:
   links:
    - registryserver
    - rabbitmq
+   - mongodb
   environment:
       SPRING_PROFILES_ACTIVE: cloud
 bookregistrationmessagebroker:
@@ -53,4 +63,12 @@ bookregistrationweb:
   links:
    - registryserver
   environment:
+      SPRING_PROFILES_ACTIVE: cloud
+bookrorderweb:
+   image: vineet/book-order-web
+   ports:
+      - "9870:9870"
+   links:
+    - registryserver
+   environment:
       SPRING_PROFILES_ACTIVE: cloud

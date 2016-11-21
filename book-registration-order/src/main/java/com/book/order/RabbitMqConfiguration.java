@@ -24,7 +24,7 @@ public class RabbitMqConfiguration
   {
       CachingConnectionFactory connectionFactory = new CachingConnectionFactory(rabbitMqHost);
       connectionFactory.setUsername("guest");
-      connectionFactory.setPassword("guest");
+      connectionFactory.setPassword("guest"); 
       return connectionFactory;
   }
 

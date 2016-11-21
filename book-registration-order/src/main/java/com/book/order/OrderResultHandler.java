@@ -1,13 +1,15 @@
 package com.book.order;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.amazonaws.util.json.Jackson;
 import com.book.messageBroker.BookMessage;
 import com.book.order.common.SequenceGenerator;
 import com.book.order.entities.Order;
 import com.book.order.persistence.dao.OrderDao;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class OrderResultHandler
@@ -17,11 +19,18 @@ public class OrderResultHandler
   @Autowired
   SequenceGenerator sequenceGenerator;
 
-  public void handleMessage(Object bookMesssage)
+  public void handleMessage(Object bookMesssage) 
   {
-    String message = Jackson.toJsonString(bookMesssage);
-    orderDao.saveOrder(createNewOrder(Jackson.fromJsonString(message,BookMessage.class)));
-    System.out.println("New Order Created");
+    try 
+    {
+    ObjectMapper mapper = new ObjectMapper();
+    String message = mapper.writeValueAsString(bookMesssage);
+    orderDao.saveOrder(createNewOrder(mapper.readValue(message, BookMessage.class)));
+    }
+    catch (IOException e)
+    {
+      throw new RuntimeException(e);
+    }
   }
 
   private Order createNewOrder(BookMessage bookMessage)

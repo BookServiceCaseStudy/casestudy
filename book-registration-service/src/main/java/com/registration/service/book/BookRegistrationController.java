@@ -38,19 +38,9 @@ public class BookRegistrationController
   @RequestMapping("/books/register")
   public ResponseEntity<String> create(@RequestBody Book book)
   {
-    try
-    {
       book.setId(sequenceGenerator.getNextSequence("Book"));
       bookRegistrationDao.save(book);
       return new ResponseEntity("Book Registered", HttpStatus.OK);
-    }
-    catch (Exception e)
-    {
-      LOG.debug("Error while regestring n Customer");
-      return new ResponseEntity(
-        "Error while creating Customer!!, Pease contact your administrator!!",
-        HttpStatus.NOT_FOUND);
-    }
   }
 
   @POST
@@ -59,16 +49,10 @@ public class BookRegistrationController
   @RequestMapping("/books/purchase")
   public ResponseEntity<List<Book>> purchase(@RequestBody Book book)
   {
-    try
-    {
-      bookRegistrationDao.update(book);
-      return new ResponseEntity(bookRegistrationDao.findBookByName(book.getSearchString()), HttpStatus.OK);
-    }
-    catch (Exception e)
-    {
-      LOG.debug("Error while regestring n Customer");
-      return new ResponseEntity(HttpStatus.NOT_FOUND);
-    }
+    bookRegistrationDao.update(book);
+    return new ResponseEntity(bookRegistrationDao.findBookByName(book.getSearchString()),
+      HttpStatus.OK);
+
   }
 
   @GET
