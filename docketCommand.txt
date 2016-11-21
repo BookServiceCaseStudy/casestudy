@@ -1,0 +1,24 @@
+docker ps
+docker images
+docker-machine regenerate-certs default
+export DOCKER_HOST=tcp://192.168.59.104:2375
+
+in case of localhost : 2375 issue 
+define docker_host, docker_toolbox_path
+set DOCKER_HOST=tcp://192.168.99.100:2376
+set DOCKER_MACHINE_NAME=default
+set DOCKER_TLS_VERIFY=1
+set DOCKER_TOOLBOX_INSTALL_PATH=C:\Program Files\Docker Toolbox
+set DOCKER_CERT_PATH=C:\Users\myuserhere.docker\machine\machines\default
+
+docker gives error if repository names contains capital letters.
+docker stop $(docker ps -a -q) - stop all containers
+x - remove all containers
+docker rmi $(docker images -q) - remove all images
+docker run -p 12888:12888 vineet/config-server
+docker-compose up
+
+service name should not be big else config server will not pick files
+
+
+docker-machine regenerate-certs [name]

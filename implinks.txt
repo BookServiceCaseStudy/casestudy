@@ -1,0 +1,9 @@
+https://github.com/pierredavidbelanger/spring-rabbitmq-tutum
+
+https://alexandreesl.com/2016/01/08/docker-using-containers-to-implement-a-microservices-architecture/
+
+http://callistaenterprise.se/blogg/teknik/2015/06/08/building-microservices-part-4-dockerize-your-microservices/
+
+https://jhipster.github.io/creating-an-app/#1
+
+http://codehangar.io/mongodb-image-instance-with-docker-toolbox-tutorial/

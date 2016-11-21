@@ -1,0 +1,59 @@
+rabbitmq:
+  image : rabbitmq:3-management
+  container_name: rabbitmq
+  hostname: rabbitmq
+  ports:
+    - "15672:15672"
+  expose:
+    - "5672"
+    - "4369"
+    - "25672"
+registryserver:
+  image: vineet/registry-server
+  ports:
+   - "12871:12871"
+configserver:
+  image: vineet/config-server
+  ports:
+   - "12888:12888"
+gateway:
+  image: vineet/gateway
+  ports:
+   - "10000:10000"
+  links:
+   - registryserver
+   - configserver
+   - bookregistrationorder
+   - bookregistrationservice
+   - bookregistrationmessagebroker
+   - bookregistrationweb
+bookregistrationservice:
+  image: vineet/book-registration-service
+  links:
+   - registryserver
+   - configserver
+bookregistrationorder:
+  image: vineet/book-registration-order
+  links:
+   - registryserver
+   - configserver
+   - rabbitmq
+  environment:
+      SPRING_PROFILES_ACTIVE: cloud
+bookregistrationmessagebroker:
+  image: vineet/book-registration-message-broker
+  links:
+   - registryserver
+   - configserver
+   - rabbitmq
+  environment:
+      SPRING_PROFILES_ACTIVE: cloud
+bookregistrationweb:
+  image: vineet/book-service-web
+  ports:
+     - "9006:9006"
+  links:
+   - registryserver
+   - configserver
+  environment:
+      SPRING_PROFILES_ACTIVE: cloud

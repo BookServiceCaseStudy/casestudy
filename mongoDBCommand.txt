@@ -1,0 +1,15 @@
+to create new Database
+useDb vineet
+
+to remove collection 
+
+db.{collectionName}.remove ({condition})
+
+db.Book.remove ({_id:2})
+
+db.counters.insert(
+ {
+      _id: "userid",
+      seq: 0
+   }
+)
